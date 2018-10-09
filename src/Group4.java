@@ -64,10 +64,14 @@ public class Group4 {
     }
 
     public static int partition(Data[] array, int start, int end){
-        Data k = array[end];
+        M_LRMUSComparator comparator=new M_LRMUSComparator();
+
         int i = start - 1;
         for (int count = start; count <= end -1; count++) {
-            if (array[count].compare(i, k) <= 0) {
+            // if (comparator.compare(start, end > 0)
+
+            // if (comprator.compare(end, start < 0)
+            if (array[count].equals(0)) {
                 i++;
                 swap(i, count, array);
             }
@@ -95,7 +99,7 @@ public class Group4 {
             toSortData[i] = new Data(toSort[i]);
         }
         //System.out.println("done!");
-        Arrays.sort(toSortData, new M_LRMUSComparator());
+        quickSort(toSortData, new M_LRMUSComparator());
         return toSortData;
     }
 
