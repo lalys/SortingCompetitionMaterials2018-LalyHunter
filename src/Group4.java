@@ -2,6 +2,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -34,9 +35,9 @@ public class Group4 {
 
         String [] toSort = data.clone();
 
-        //System.out.println("Beginning sort...");
+        System.out.println("Beginning sort...");
         Data [] sorted = sort(toSort);
-        //System.out.println("done");
+        System.out.println("done");
 
 
         toSort = data.clone();
@@ -49,13 +50,38 @@ public class Group4 {
 
         long end = System.currentTimeMillis();
 
-        //System.out.println("This is the time it took to run.");
-        System.out.println(end - start + "ms");
-        //System.out.print("\tExporting sorted data to "+outFileName+"...");
+        System.out.println(end - start);
+        System.out.print("\tExporting sorted data to "+outFileName+"...");
         writeOutResult(sorted, outFileName);
-        //System.out.println("done!");
+        System.out.println("done!");
 
     }
+    public static void quickSort(Data [] array, int start, int end){
+        if (start < end);
+            int q = partition(array, start, end);
+            quickSort(array, start, q-1);
+            quickSort(array, q+1, end);
+    }
+
+    public static int partition(Data[] array, int start, int end){
+        Data k = array[end];
+        int i = start - 1;
+        for (int count = start; count <= end -1; count++) {
+            if (array[count].compare(i, k) <= 0) {
+                i++;
+                swap(i, count, array);
+            }
+        }
+        swap(i+1, end, array);
+        return i+1;
+    }
+
+    public static void swap(int arrayPos1,int arrayPos2, Data[] array){
+        Data d = array[arrayPos1];
+        array[arrayPos1] = array[arrayPos2];
+        array[arrayPos2] = d;
+    }
+
 
     // YOUR SORTING METHOD GOES HERE.
     // You may call other methods and use other classes.
@@ -78,7 +104,6 @@ public class Group4 {
             System.out.println(Arr[i]);
         }
     }
-
     private static String[] readData(String inFile) throws FileNotFoundException,IOException {
         //ArrayList<String> input = new ArrayList<>();
 
@@ -87,11 +112,9 @@ public class Group4 {
 
 
                 /*Scanner in = new Scanner(new File(inFile));
-
                 while(in.hasNext()) {
                         input.add(in.next());
                 }
-
                 in.close();
                 */
         // the string array is passed just so that the correct type can be created
@@ -129,7 +152,6 @@ public class Group4 {
             return(s1.value().compareTo(s2.value())); //This too.
         }
     }
-
     private static class Data {
         private class LRMUS{
             public int position=Integer.MAX_VALUE; // Initial Position is as bad as possible
