@@ -2,7 +2,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -11,7 +10,7 @@ import java.util.Comparator;
 import java.util.Scanner;
 import java.util.List;
 
-public class Group4 {
+public class Test {
 
     public static void main(String[] args) throws InterruptedException, FileNotFoundException,IOException {
         // testing the comparator:
@@ -39,13 +38,14 @@ public class Group4 {
         Data [] sorted = sort(toSort);
         System.out.println("done");
 
+
         toSort = data.clone();
 
         Thread.sleep(10); //to let other things finish before timing; adds stability of runs
 
         long start = System.currentTimeMillis();
 
-        sorted = quickSort(toSort, 0,toSort.length - 1);
+        sorted = sort(toSort);
 
         long end = System.currentTimeMillis();
 
@@ -55,49 +55,6 @@ public class Group4 {
         System.out.println("done!");
 
     }
-    public static void quickSort(Data[] array, int start, int end){
-        if (start < end);
-            int q = partition(array, start, end-1);
-            quickSort(array, start, q-1);
-            quickSort(array, q+1, end);
-
-        /*Data[] toSortData = new Data[array.length];
-        for (int i = 0; i < array.length; ++i) {
-            toSortData[i] = new Data[array[i]];
-        }
-        //System.out.println("done!");
-        Arrays.sort(toSortData, new M_LRMUSComparator());
-        return toSortData;
-        */
-    }
-
-
-    public static int partition(Data[] array, int start, int end){
-        M_LRMUSComparator comparator=new M_LRMUSComparator();
-
-        int i = start - 1;
-        for (int count = start; count <= end -1; count++) {
-            if (comparator.compare(array[start], array[end]) > 0) {
-                return 1;
-            }
-            if (comparator.compare(array[end], array[start]) < 0){
-                return -1;
-            }
-            if (array[count].equals(0)) {
-                i++;
-                swap(array,i, count);
-            }
-        }
-        swap(array, i+1, end);
-        return i+1;
-    }
-
-    public static void swap(Data[] array,int arrayPos1,int arrayPos2){
-        Data d = array[arrayPos1];
-        array[arrayPos1] = array[arrayPos2];
-        array[arrayPos2] = d;
-    }
-
 
     // YOUR SORTING METHOD GOES HERE.
     // You may call other methods and use other classes.
