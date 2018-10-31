@@ -28,16 +28,16 @@ public class Group4 {
 
         // read as strings
         //System.out.print("Importing data from "+inputFileName+"...");
-        String [] data = readData(inputFileName);
+        String[] data = readData(inputFileName);
         //System.out.println("done");
         //System.out.println("First is ->"+data[0]+"<-");
         //      printArray(data, 10);
 
-        String [] toSort = data.clone();
+        String[] toSort = data.clone();
 
-        System.out.println("Beginning sort...");
-        Data [] sorted = sort(toSort);
-        System.out.println("done");
+        //System.out.println("Beginning sort...");
+        Data[] sorted = sort(toSort);
+        //System.out.println("done");
 
         toSort = data.clone();
 
@@ -45,7 +45,7 @@ public class Group4 {
 
         long start = System.currentTimeMillis();
 
-        sorted = quickSort(toSort, 0,toSort.length - 1);
+        quickSort(toSort , 0,toSort.length - 1);
 
         long end = System.currentTimeMillis();
 
@@ -55,40 +55,32 @@ public class Group4 {
         System.out.println("done!");
 
     }
-    public static void quickSort(Data[] array, int start, int end){
+    public static void quickSort(Data[] toSortData, int start, int end){
         if (start < end);
-            int q = partition(array, start, end-1);
-            quickSort(array, start, q-1);
-            quickSort(array, q+1, end);
+            int q = partition(toSortData, start, end-1);
+            quickSort(toSortData, start, q-1);
+            quickSort(toSortData, q+1, end);
 
-        /*Data[] toSortData = new Data[array.length];
-        for (int i = 0; i < array.length; ++i) {
-            toSortData[i] = new Data[array[i]];
-        }
-        //System.out.println("done!");
-        Arrays.sort(toSortData, new M_LRMUSComparator());
-        return toSortData;
-        */
     }
 
 
-    public static int partition(Data[] array, int start, int end){
+    public static int partition(Data[] toSortData, int start, int end){
         M_LRMUSComparator comparator=new M_LRMUSComparator();
 
         int i = start - 1;
         for (int count = start; count <= end -1; count++) {
-            if (comparator.compare(array[start], array[end]) > 0) {
+            if (comparator.compare(toSortData[start], toSortData[end]) > 0) {
                 return 1;
             }
-            if (comparator.compare(array[end], array[start]) < 0){
+            if (comparator.compare(toSortData[end], toSortData[start]) < 0){
                 return -1;
             }
-            if (array[count].equals(0)) {
+            if (toSortData[count].equals(0)) {
                 i++;
-                swap(array,i, count);
+                swap(toSortData,i, count);
             }
         }
-        swap(array, i+1, end);
+        swap(toSortData, i+1, end);
         return i+1;
     }
 
@@ -111,7 +103,7 @@ public class Group4 {
             toSortData[i] = new Data(toSort[i]);
         }
         //System.out.println("done!");
-        Arrays.sort(toSortData, new M_LRMUSComparator());
+        partition(toSortData, new M_LRMUSComparator(), toSortData.length-1);
         return toSortData;
     }
 
