@@ -45,7 +45,9 @@ public class Group4 {
 
         long start = System.currentTimeMillis();
 
-        quickSort(toSort , 0,toSort.length - 1);
+        sorted = sort(toSort);
+
+        //quickSort(toSort , 0,toSort.length - 1);
 
         long end = System.currentTimeMillis();
 
@@ -55,11 +57,19 @@ public class Group4 {
         System.out.println("done!");
 
     }
-    public static void quickSort(Data[] toSortData, int start, int end){
+
+
+    // YOUR SORTING METHOD GOES HERE.
+    // You may call other methods and use other classes.
+    // Note: you may change the return type of the method.
+    // You would need to provide your own function that prints your sorted array to
+    // a file in the exact same format that my program outputs
+
+    /*public static void quickSort(Data[] toSortData, int start, int end){
         if (start < end);
-            int q = partition(toSortData, start, end-1);
-            quickSort(toSortData, start, q-1);
-            quickSort(toSortData, q+1, end);
+        int q = partition(toSortData, start, end-1);
+        quickSort(toSortData, start, q-1);
+        quickSort(toSortData, q+1, end);
 
     }
 
@@ -88,14 +98,8 @@ public class Group4 {
         Data d = array[arrayPos1];
         array[arrayPos1] = array[arrayPos2];
         array[arrayPos2] = d;
-    }
+    }*/
 
-
-    // YOUR SORTING METHOD GOES HERE.
-    // You may call other methods and use other classes.
-    // Note: you may change the return type of the method.
-    // You would need to provide your own function that prints your sorted array to
-    // a file in the exact same format that my program outputs
     private static Data[] sort(String[] toSort) {
         Data[] toSortData = new Data[toSort.length];
         //System.out.print("\tBeginning Initialization...");
@@ -103,7 +107,7 @@ public class Group4 {
             toSortData[i] = new Data(toSort[i]);
         }
         //System.out.println("done!");
-        partition(toSortData, new M_LRMUSComparator(), toSortData.length-1);
+        Arrays.sort(toSortData, new M_LRMUSComparator());
         return toSortData;
     }
 
@@ -168,37 +172,51 @@ public class Group4 {
 
             public LRMUS(String str){
                 referenceStr=str; // REFERENCE to original string
-            }
+        }
 
-            public void updateAt(int start){ //0-based position.  Will update LRMUS if there is an improvement at start
+            public void updateAt(int start) { //0-based position.  Will update LRMUS if there is an improvement at start
                 int n = referenceStr.length();
-                for(int end=start; end<n;end++){
-                    int matchCnt=0;
-                    String toMatch=referenceStr.substring(start,end); //indices are 0-based so str.length is 1 more than the final index
+                for (int end = start; end < n; end++) {
+                    int matchCnt = 0;
+                    String toMatch = referenceStr.substring(start, end); //indices are 0-based so str.length is 1 more than the final index
 
-                    int m=toMatch.length();
-                    if (m<length){ // If the string to match is shorter than our current best then we should skip to the next iteration
+                    int m = toMatch.length();
+                    if (m < length) { // If the string to match is shorter than our current best then we should skip to the next iteration
                         continue;
                         //break; // If the string to match is shorter than our current best length there's no reason to continue
                     }
-                    int testEnd=referenceStr.length()-m;
-                    for(int testStart=0;testStart<=testEnd;testStart++){
+
+                    /*int testEnd=referenceStr.length()-m;
+                    for(int testStart=0; testStart<=testEnd; testStart++){
                         String test=referenceStr.substring(testStart,testStart+m); // For each testable location extract the substring that's the same size as toMatch
                         if(toMatch.compareTo(test)==0){matchCnt++;}
-                    }
-                    if(matchCnt==0){System.out.println("DANGER!  No Match in updateAt!  This should never happen");}
-                    if(matchCnt==1){ // In this case the substring is unique.  If we are here than the match is at least as good as the previous best
-                        if(m==this.length && start < this.position){// If it's a tie then we check position
-                            this.position=start;
-                        } else if(m>this.length) {
-                            this.length=m;
-                            this.position=start; //
-                        }
-                        // NOTE:  If the length is the same AND the start >= the new position then there's nothing to update
+                    }*/
 
-                        break; // We can't do any better since $m$ is decreasing... our m<length sentinel would capture this... but why waste time
+                    int testEnd = referenceStr.length() - m;
+                    for (int testStart = 0; testStart <= testEnd; testStart++) {
+                        String test = referenceStr.substring(testStart, testStart + m); // For each testable location extract the substring that's the same size as toMatch
+                        if (toMatch.compareTo(test) == 0) {
+                            matchCnt++;
+                        }
+
+
+                        if (matchCnt == 0) {
+                            System.out.println("DANGER!  No Match in updateAt!  This should never happen");
+                        }
+                        if (matchCnt == 1) { // In this case the substring is unique.  If we are here than the match is at least as good as the previous best
+                            if (m == this.length && start < this.position) {// If it's a tie then we check position
+                                this.position = start;
+                            } else if (m > this.length) {
+                                this.length = m;
+                                this.position = start; //
+                            }
+                            // NOTE:  If the length is the same AND the start >= the new position then there's nothing to update
+
+                            break; // We can't do any better since $m$ is decreasing... our m<length sentinel would capture this... but why waste time
+                        }
+                        // If we are here then we haven't found a unique match -- we need to extend the length of our string and try again.
                     }
-                    // If we are here then we haven't found a unique match -- we need to extend the length of our string and try again.
+
                 }
             }
             public void findBest(){
